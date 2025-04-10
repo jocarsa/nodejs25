@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+    <head>
+            <style>
+                main{
+                    display:grid;
+                    grid-template-columns: auto auto auto;
+                    gap:20px;
+                }
+                article{
+                    border:1px solid lightgrey;
+                    border-radius:5px;
+                    padding:20px;
+                    text-align:center;
+                }
+        </style>
+    </head>
+    <body>
+        <main>
+                
+        </main>
+        <script>
+            fetch("http://localhost:3000")
+            .then(function(respuesta){
+                return respuesta.json()
+            })
+            .then(function(datos){
+                datos.forEach(function(dato){
+                    document.querySelector("main").innerHTML += `
+                        <article>
+                            <h3>`+dato.nombre+`</h3>
+                            <p>`+dato.edad+`</p>
+                        </article>
+                    `
+                })
+            })
+        
+        </script>
+    </body>
+</html>
