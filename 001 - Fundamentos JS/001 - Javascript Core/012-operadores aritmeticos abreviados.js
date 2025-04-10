@@ -1,0 +1,10 @@
+var edad = 46;
+console.log("Mi edad es de",edad,"años");
+edad+=5;
+console.log("Mi edad es de",edad,"años");
+edad-=5;
+console.log("Mi edad es de",edad,"años");
+edad*=5;
+console.log("Mi edad es de",edad,"años");
+edad/=5;
+console.log("Mi edad es de",edad,"años");

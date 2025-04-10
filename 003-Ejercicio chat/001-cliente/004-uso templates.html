@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style>
+            *{margin:0px;padding:0px;}
+            body,html{
+                font-family:sans-serif;
+                text-align:center;
+                display:flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height:100%;
+            }
+            .mensaje{
+                margin:5px;
+                background:lightgreen;
+                padding:0px;
+                padding:5px;
+                border-radius:0px 5px 5px 5px;
+                width:80%;
+                text-align:left;
+            }
+            input{
+                box-sizing: border-box;
+                width:100%;
+                padding:10px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Chat</h1>
+        </header>
+        <main>
+            <template id="mensaje">
+                <div class="mensaje">
+                    <time>2025-04-10</time>
+                    <h4>Persona que envia el mensaje</h4>
+                    <p>Texto del mensaje</p>
+                </div>
+            </template>
+            <section></section>
+            <script>
+                let numeromensajes = 5;
+                let plantilla = document.querySelector("#mensaje")
+                let contenedor = document.querySelector("section")
+                
+                for(let i = 0;i<numeromensajes;i++){
+                    let instancia = plantilla.content.cloneNode(true);
+                    contenedor.appendChild(instancia)
+                }
+            </script>
+        </main>
+        <footer>
+            <input type="text">
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,1 @@
+console.warn("Esto es una advertencia");

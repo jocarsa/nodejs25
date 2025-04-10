@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body, html, .App {
+  font-family: sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+section {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+Header{
+    flex:1;
+    
+}
+Footer{
+    flex:1;
+}
+main{
+    flex:5;
+    overflow-y:scroll;
+}

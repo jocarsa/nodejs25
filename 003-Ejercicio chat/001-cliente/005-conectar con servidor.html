@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style>
+            *{margin:0px;padding:0px;}
+            body,html{
+                font-family:sans-serif;
+                text-align:center;
+                display:flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height:100%;
+            }
+            .mensaje{
+                margin:5px;
+                background:lightgreen;
+                padding:0px;
+                padding:5px;
+                border-radius:0px 5px 5px 5px;
+                width:80%;
+                text-align:left;
+            }
+            input{
+                box-sizing: border-box;
+                width:100%;
+                padding:10px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Chat</h1>
+        </header>
+        <main>
+            <template id="mensaje">
+                <div class="mensaje">
+                    <time>2025-04-10</time>
+                    <h4>Persona que envia el mensaje</h4>
+                    <p>Texto del mensaje</p>
+                </div>
+            </template>
+            <section></section>
+            
+        </main>
+        <footer>
+            <input type="text">
+        </footer>
+        <script>
+                // Variables globales
+                let plantilla = document.querySelector("#mensaje")
+                let contenedor = document.querySelector("section")
+                // Enviar un mensaje
+                let entrada = document.querySelector("input")
+                entrada.onkeyup = function(evento){
+                    if (evento.key === "Enter") {
+                        let mensaje = {"mensaje":this.value}
+                        this.value = "";
+                        fetch("http://localhost:3000/envia", {
+                          method: 'POST', 
+                          headers: {
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify(mensaje)
+                        })
+                    }
+                }
+                // Recibir mensajes
+                var temporizador = setTimeout("bucle()",1000)
+                function bucle(){
+                    contenedor.innerHTML = ""
+                    fetch("http://localhost:3000/recibe")
+                    .then(function(resultado){
+                        return resultado.json()
+                    })
+                    .then(function(datos){
+                        datos.forEach(function(mensaje){
+                            let instancia = plantilla.content.cloneNode(true);
+                            contenedor.appendChild(instancia)
+                        })
+                    })
+                    clearTimeout(temporizador)
+                    temporizador = setTimeout("bucle()",1000)
+                }
+                let numeromensajes = 5;
+            </script>
+    </body>
+</html>

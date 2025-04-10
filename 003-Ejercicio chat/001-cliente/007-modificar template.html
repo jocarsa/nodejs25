@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        * { margin: 0; padding: 0; }
+        body, html {
+            font-family: sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+        .mensaje {
+            margin: 5px;
+            background: lightgreen;
+            padding: 5px;
+            border-radius: 0px 5px 5px 5px;
+            width: 80%;
+            text-align: left;
+        }
+        input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Chat</h1>
+        <input type="text" id="usuario" placeholder="Tu nombre">
+    </header>
+    <main>
+        <template id="mensaje">
+            <div class="mensaje">
+                <time></time>
+                <h4></h4>
+                <p></p>
+            </div>
+        </template>
+        <section></section>
+    </main>
+    <footer>
+        <input type="text" id="inputmensaje" placeholder="Escribe tu mensaje y pulsa Enter">
+    </footer>
+    <script>
+        // Variables globales
+        const plantilla = document.querySelector("#mensaje");
+        const contenedor = document.querySelector("section");
+        const usuario = document.querySelector("#usuario");
+        const entrada = document.querySelector("#inputmensaje");
+
+        // Enviar un mensaje
+        entrada.onkeyup = function(evento) {
+            const fecha = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            if (evento.key === "Enter" && usuario.value.trim() && this.value.trim()) {
+                const mensaje = {
+                    mensaje: this.value.trim(),
+                    usuario: usuario.value.trim(),
+                    fecha: fecha
+                };
+                this.value = "";
+                fetch("http://localhost:3000/envia", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(mensaje)
+                });
+            }
+        };
+
+        // Recibir mensajes periódicamente
+        function bucle() {
+            fetch("http://localhost:3000/recibe")
+                .then(res => res.json())
+                .then(datos => {
+                    contenedor.innerHTML = ""; // Limpiar antes de pintar
+                    datos.forEach(mensaje => {
+                        const instancia = plantilla.content.cloneNode(true);
+                        instancia.querySelector("time").textContent = mensaje.fecha;
+                        instancia.querySelector("h4").textContent = mensaje.usuario;
+                        instancia.querySelector("p").textContent = mensaje.mensaje;
+                        contenedor.appendChild(instancia);
+                    });
+                });
+            setTimeout(bucle, 1000);
+        }
+
+        bucle(); // Iniciar el bucle al cargar
+    </script>
+</body>
+</html>
