@@ -10,7 +10,7 @@ const App = () => {
   const [mensajes, setMensajes] = useState([]);
 
   const fetchMensajes = async () => {
-    const res = await fetch('http://localhost:3000/recibe');
+    const res = await fetch('https://jocarsa.com:3000/recibe');
     const data = await res.json();
     setMensajes(data);
   };
@@ -29,7 +29,7 @@ const App = () => {
         fecha: new Date().toISOString().slice(0, 19).replace('T', ' ')
       };
 
-      await fetch('http://localhost:3000/envia', {
+      await fetch('https://jocarsa.com:3000/envia', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(nuevoMensaje)
